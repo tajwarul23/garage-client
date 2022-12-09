@@ -5,6 +5,7 @@ import Header from "./Components/Header/Header";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
+import RequireAuth from "./Components/RequireAuth/RequireAuth";
 import Services from "./Components/Services/Services";
 
 
@@ -14,11 +15,31 @@ function App() {
     <div>
      <Header></Header>
      <Routes>
-      <Route path='/' element={<Home></Home>}></Route>
-      <Route path='/home' element={<Home></Home>}></Route>
-      <Route path='/about' element={<About></About>}></Route>
-      <Route path='/services' element={<Services></Services>}></Route>
-      <Route path='/contact' element={<Contact></Contact>}></Route>
+      <Route path='/' element={
+        <RequireAuth>
+          <Home></Home>
+        </RequireAuth>
+      }></Route>
+      <Route path='/home'element={
+        <RequireAuth>
+          <Home></Home>
+        </RequireAuth>
+      }></Route>
+      <Route path='/about'element={
+        <RequireAuth>
+          <About></About>
+        </RequireAuth>
+      }></Route>
+      <Route path='/services' element={
+        <RequireAuth>
+          <Services></Services>
+        </RequireAuth>
+      }></Route>
+      <Route path='/contact' element={
+        <RequireAuth>
+          <Contact></Contact>
+        </RequireAuth>
+      }></Route>
       <Route path='/login' element={<Login></Login>}></Route>
       <Route path='/register' element={<Register></Register>}></Route>
      </Routes>

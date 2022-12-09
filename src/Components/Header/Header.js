@@ -1,10 +1,14 @@
 
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 
 const Header = () => {
     const normalLink = "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent";
     const activeLink = "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+    const [user,loading,error]=useAuthState(auth);
+    const [signOut, loadingS, errorS] = useSignOut(auth);
     return (
 
 
@@ -34,16 +38,24 @@ const Header = () => {
                             <NavLink to="/contact" className={({ isActive }) => (isActive ? activeLink : normalLink)}>Contact</NavLink>
                         </li>
                         {/* Dropdown */}
-                        {/* <li className="dropdown dropdown-end ">
-
-                            <label tabIndex={0} className="btn btn-sm">User</label>
-                            <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-                                <li><a>Item 1</a></li>
-                                <li><a>Item 2</a></li>
-                            </ul>
-                        </li> */}
+                        {/* */}
                         <li>
-                            <NavLink to="/login" className={({ isActive }) => (isActive ? activeLink : normalLink)}>Login</NavLink>
+                        {/* const before_ = str.substring(0, str.indexOf('_')); */}
+                            {
+                                user?
+                                <li className="dropdown dropdown-end ">
+
+                                <label tabIndex={0} className="btn btn-sm">{user?.displayName || user?.email.substring(0, user?.email.indexOf('@'))}</label>
+                                <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-40 mt-4">
+                                    <li><a>Your Profile</a></li>
+                                    <button className='btn btn-xs' onClick={()=>signOut(auth)}>SignOut</button>
+                                </ul>
+                            </li>
+                            :
+                            <li>
+                            <NavLink to="/login" className={({ isActive }) => (isActive ? activeLink : normalLink)}>login</NavLink>
+                        </li>
+                            }
                         </li>
                     </ul>
                 </div>
